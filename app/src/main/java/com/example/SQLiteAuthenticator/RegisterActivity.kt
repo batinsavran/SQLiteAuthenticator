@@ -1,6 +1,7 @@
 package com.example.SQLiteAuthenticator
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -9,9 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 
 class RegisterActivity : AppCompatActivity() {
+
+    lateinit var db: SQLiteDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        db = this.openOrCreateDatabase("TestDB", MODE_PRIVATE, null)
     }
 
     fun register(view: View){
@@ -27,8 +33,8 @@ class RegisterActivity : AppCompatActivity() {
         }else{
             if (password.equals(password_repeat)){
                 val passwordLength = password.length
-                if (passwordLength >= 8){
-
+                if (passwordLength >= 3){
+                    //Regex ile kontrol edebiliriz.
                 }else{
                     Toast.makeText(this@RegisterActivity, "Şifreniz en az 8 karakter olmalı.", Toast.LENGTH_SHORT).show()
                 }
