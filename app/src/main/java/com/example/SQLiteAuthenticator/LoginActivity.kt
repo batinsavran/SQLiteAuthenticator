@@ -11,4 +11,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
     }
+
+    fun openRegister(view: View){
+        startActivity(Intent(this, RegisterActivity::class.java))
+    }
+
+    fun openLostPassword(view: View){
+        startActivity(Intent(this, LostPasswordActivity::class.java))
+    }
 }
