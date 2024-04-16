@@ -18,11 +18,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         context = this
-        val dbFile = context.getDatabasePath("testDB")
+        val dbFile = context.getDatabasePath("TestDB")
         Log.i("DBtest", dbFile.exists().toString())
-        db = openOrCreateDatabase("testDB", Context.MODE_PRIVATE, null)
+        db = openOrCreateDatabase("TestDB", Context.MODE_PRIVATE, null)
 
         db.execSQL("CREATE TABLE users (userid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, email TEXT, password TEXT)")
+
 
         val userId = intent.getIntExtra("userId", -1)
         if (userId > 0) {
