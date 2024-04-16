@@ -35,6 +35,9 @@ class RegisterActivity : AppCompatActivity() {
                 val passwordLength = password.length
                 if (passwordLength >= 3){
                     //Regex ile kontrol edebiliriz.
+                    db.execSQL("insert into users (name, surname, email, password) values ('$name', '$surname', '$email', '$password")
+                    Toast.makeText(this@RegisterActivity, "Kayıt Başarılı.", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
                 }else{
                     Toast.makeText(this@RegisterActivity, "Şifreniz en az 8 karakter olmalı.", Toast.LENGTH_SHORT).show()
                 }
