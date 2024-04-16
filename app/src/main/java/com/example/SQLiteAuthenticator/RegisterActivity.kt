@@ -13,4 +13,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
     }
+
+    fun openLogin(view: View){
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
 }
