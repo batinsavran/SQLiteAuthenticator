@@ -1,6 +1,7 @@
 package com.example.SQLiteAuthenticator
 
 import android.content.Intent
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
@@ -17,7 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        db = this.openOrCreateDatabase("TestDB", MODE_PRIVATE, null)
+        db = this.openOrCreateDatabase("TestDB", AppCompatActivity.MODE_PRIVATE, null)
     }
 
     fun register(view: View){
@@ -31,18 +32,23 @@ class RegisterActivity : AppCompatActivity() {
         if (name.equals("") || surname.equals("") || email.equals("") || password.equals("") || password_repeat.equals("") ){
             Toast.makeText(this@RegisterActivity, "Tüm Bilgileri Eksiksiz Giriniz.", Toast.LENGTH_SHORT).show()
         }else{
-            if (password.equals(password_repeat)){
-                val passwordLength = password.length
-                if (passwordLength >= 3){
-                    //Regex ile kontrol edebiliriz.
-                    db.execSQL("insert into users (name, surname, email, password) values ('$name', '$surname', '$email', '$password")
-                    Toast.makeText(this@RegisterActivity, "Kayıt Başarılı.", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }else{
-                    Toast.makeText(this@RegisterActivity, "Şifreniz en az 8 karakter olmalı.", Toast.LENGTH_SHORT).show()
+            val result: Cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(email))
+            if (result.count > 0){
+                Toast.makeText(this@RegisterActivity, "Bu mail adresi zaten kayıtlı.", Toast.LENGTH_SHORT).show()
+            } else {
+                if (password.equals(password_repeat)){
+                    val passwordLength = password.length
+                    if (passwordLength >= 3){
+                        //Regex ile kontrol edebiliriz.
+                        db.execSQL("insert into users (name, surname, email, password) values ('$name', '$surname', '$email', '$password')")
+                        Toast.makeText(this@RegisterActivity, "Kayıt Başarılı.", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    } else {
+                        Toast.makeText(this@RegisterActivity, "Şifreniz en az 3 karakter olmalı.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@RegisterActivity, "Girdiğiniz şifreler birbirini tutmuyor.", Toast.LENGTH_SHORT).show()
                 }
-            }else{
-                Toast.makeText(this@RegisterActivity, "Girdiğiniz şifreler birbirini tutmuyor.", Toast.LENGTH_SHORT).show()
             }
         }
     }
