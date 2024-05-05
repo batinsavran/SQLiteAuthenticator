@@ -6,54 +6,58 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.R
+import com.example.myapplication.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var db: SQLiteDatabase
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var db: SQLiteDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         db = openOrCreateDatabase("Users", MODE_PRIVATE, null)
     }
 
-    fun proccessLogin(view: View){
-        val login_email = findViewById<EditText>(R.id.editTextTextEmailAddress).text.toString()
-        val login_password = findViewById<EditText>(R.id.editTextTextPassword).text.toString()
+    fun proccessLogin(view: View) {
+        val loginEmail = binding.editTextTextEmailAddress.text.toString()
+        val loginPassword = binding.editTextTextPassword.text.toString()
 
-        if (login_email.equals("")||login_password.equals("")){
+        if (loginEmail.isEmpty() || loginPassword.isEmpty()) {
             Toast.makeText(this, "Bilgileri eksiksiz giriniz", Toast.LENGTH_SHORT).show()
-        }else{
-            val result: Cursor = db.rawQuery("SELECT * FROM users WHERE email = '$login_email'", null)
-            if (result.count>0){
+        } else {
+            val result: Cursor =
+                db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(loginEmail))
+            if (result.count > 0) {
                 result.moveToFirst()
-                val userid=result.getInt(0)
-                val name=result.getString(1)
-                val surname=result.getString(2)
-                val email=result.getString(3)
-                val password=result.getString(4)
-                Log.d("test", "$userid $name $surname $email $password")
-                if (password.equals(login_password)){
+                val userId = result.getInt(0)
+                val name = result.getString(1)
+                val surname = result.getString(2)
+                val email = result.getString(3)
+                val password = result.getString(4)
+                Log.d("test", "$userId $name $surname $email $password")
+                if (password == loginPassword) {
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("userid", userid)
+                    intent.putExtra("userid", userId)
                     startActivity(intent)
-                }else{
+                } else {
                     Toast.makeText(this, "Şifre yanlış", Toast.LENGTH_SHORT).show()
                 }
-            }else{
+            } else {
                 Toast.makeText(this, "Kullanıcı bulunamadı", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    fun openRegister(view: View){
+
+    fun openRegister(view: View) {
         startActivity(Intent(this, RegisterActivity::class.java))
     }
 
-    fun openLostPassword(view: View){
+    fun openLostPassword(view: View) {
         startActivity(Intent(this, LostPasswordActivity::class.java))
     }
 }
