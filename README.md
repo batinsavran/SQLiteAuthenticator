@@ -31,6 +31,3 @@ Contributions are welcome! If you find any bugs or have suggestions for new feat
 
 Email: batinsavran00@gmail.com 
 
-## Screenshots
-
-![1](https://github.com/batinsavran/SQLiteAuthenticator/assets/159823972/b491e3d8-ad6b-41e9-8ac7-a708f4e396e5)
