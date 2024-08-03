@@ -24,10 +24,3 @@ Upon launching the application, users are presented with the option to either re
 
 ## Contributing
 Contributions are welcome! If you find any bugs or have suggestions for new features, please open an issue or submit a pull request.
-
-## Contact
-
-[Batın Gökçe Savran](https://github.com/batinsavran/)  - [LinkedIn](https://www.linkedin.com/in/bat%C4%B1n-g%C3%B6k%C3%A7e-savran-46152b25b/)
-
-Email: batinsavran00@gmail.com 
-
